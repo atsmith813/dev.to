@@ -22,7 +22,9 @@ If you're working on DEV regularly, you can use `alias start="bin/startup"` to
 make this even easier. 😊
 
 If you're using **`pry`** for debugging in Rails, note that using `foreman` and
-`pry` together works, but it's not as clean as `bin/rails server`.
+`pry` together works, but it's not as clean as `bin/rails server`. It's common
+to use `pry-remote` if you're trying to use `foreman` with `pry`. You can
+checkout `pry-remote` [here](https://github.com/Mon-Ouie/pry-remote).
 
 Here are some singleton commands you may need, usually in a separate
 instance/tab of your shell.
