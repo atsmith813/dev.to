@@ -31,6 +31,9 @@ Rails.application.configure do
     "Cache-Control" => "public, s-maxage=#{30.days.to_i}, max-age=#{30.days.to_i}"
   }
 
+  # Store files on Amazon S3.
+  config.active_storage.service = :amazon
+
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = Uglifier.new(harmony: true)
   # config.assets.css_compressor = :sass
