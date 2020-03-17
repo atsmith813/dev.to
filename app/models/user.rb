@@ -19,6 +19,8 @@ class User < ApplicationRecord
   acts_as_followable
   acts_as_follower
 
+  has_one_attached :avatar
+
   has_many :organization_memberships, dependent: :destroy
   has_many :organizations, through: :organization_memberships
   has_many :api_secrets, dependent: :destroy
@@ -51,8 +53,8 @@ class User < ApplicationRecord
   has_many :response_templates, foreign_key: :user_id, inverse_of: :user, dependent: :destroy
   has_many :html_variants, dependent: :destroy
   has_many :page_views, dependent: :destroy
-  has_many :credits, dependent: :destroy
   has_many :classified_listings, dependent: :destroy
+  has_many :credits, dependent: :destroy
   has_many :poll_votes, dependent: :destroy
   has_many :poll_skips, dependent: :destroy
   has_many :backup_data, foreign_key: "instance_user_id", inverse_of: :instance_user, class_name: "BackupData", dependent: :delete_all

@@ -1,6 +1,7 @@
 class UserPolicy < ApplicationPolicy
   PERMITTED_ATTRIBUTES = %i[
     available_for
+    avatar
     behance_url
     bg_color_hex
     config_font
