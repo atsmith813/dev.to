@@ -33,8 +33,10 @@ module Redirects
 
     def update_path_redirects(new_path)
       # Update newly invalid path_redirects
-      invalid_path_redirects = PathRedirect.where(new_path: old_path)
+      invalid_path_redirects = PathRedirect.where("new_path = ? AND old_path != ?", old_path, new_path)
       invalid_path_redirects.update_all(new_path: new_path, source: "service")
+
+      # TODO: - figure out infinite loop issue
 
       # Create the new redirect
       PathRedirect.create(old_path: old_path, new_path: new_path, source: "service")
@@ -83,7 +85,7 @@ module Redirects
 
     def find_relevant_tag_path
       result = Search::Tag.search_documents(tag_query_string).first
-      result ? "t/#{result['name']}" : nil
+      result ? "/t/#{result['name']}" : nil
     end
 
     def tag_query_string
