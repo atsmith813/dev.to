@@ -1,5 +1,5 @@
 module Redirects
-  class Article
+  class ArticleHandler
     def self.call(*args)
       new(*args).call
     end
@@ -15,13 +15,14 @@ module Redirects
       return if PathRedirect.find_by(old_path: old_path)
 
       new_path = determine_new_path
+      tags = ["type:article", "old_path:#{old_path}"]
 
       if new_path
         update_path_redirects(new_path)
 
-        tags = ["type:article", "old_path:#{old_path}", "new_path:#{new_path}"]
+        tags += ["status:found", "new_path:#{new_path}"]
       else
-        tags = ["type:article", "old_path:#{old_path}"]
+        tags += ["status:not_found"]
       end
 
       # Log result to Datadog
@@ -47,11 +48,11 @@ module Redirects
     end
 
     def search_fields
-      # Determine the slug from the Article's path, commonly "/#{username}/#{slug}"
+      # Determine the slug from the Article's path (i.e. "/#{username}/#{slug}")
       slug = old_path.split("/").last
 
-      # An Article's slug is built as follows in the title_to_slug method on the Article
-      # model:
+      # An Article's slug is built as follows in the title_to_slug method on
+      # the Article model:
       #
       # title.to_s.downcase.parameterize.tr("_", "") + "-" + rand(100_000).to_s(26)
       #
