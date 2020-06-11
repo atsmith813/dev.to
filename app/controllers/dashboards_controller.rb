@@ -22,7 +22,7 @@ class DashboardsController < ApplicationController
       @articles = target.articles.includes(:organization)
     end
 
-    @articles = @articles.sorting(params[:sort]).decorate
+    @articles = @articles.includes([:user_subscriptions]).sorting(params[:sort]).decorate
 
     # Updates analytics in background if appropriate
     update_analytics = @articles && SiteConfig.ga_fetch_rate < 50 # Rate limited, sometimes we throttle down

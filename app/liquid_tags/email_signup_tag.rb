@@ -2,6 +2,29 @@ class EmailSignupTag < LiquidTagBase
   PARTIAL = "liquids/email_signup".freeze
 
   SCRIPT = <<~JAVASCRIPT.freeze
+    function handleSuccess(response) {
+      console.log("(Email signup success) " + response);
+      var statusEl = document.getElementById('email-signup-status');
+      statusEl.style.color = "green";
+      statusEl.innerHTML = "Thanks for subscribing!";
+    }
+
+    function handleError(response) {
+      var errorMsg = prettifyError(response.error);
+      console.error("(Email signup error) " +  errorMsg);
+      var statusEl = document.getElementById('email-signup-status');
+      statusEl.style.color = "red";
+      statusEl.innerHTML = errorMsg;
+    }
+
+    function prettifyError(errorMsg) {
+      if (errorMsg == "Subscriber has already been taken") {
+        return "You've already subscribed to this!"
+      } else {
+        return errorMsg
+      }
+    }
+
     var signupBtn = document.getElementById('email-signup-btn');
 
     signupBtn.addEventListener('click', function(e) {
@@ -30,14 +53,18 @@ class EmailSignupTag < LiquidTagBase
           }
         ),
         credentials: 'same-origin',
-      }).then(function(response){
-        console.log(response);
+      }).then(function(response) {
+        if (response.ok) {
+          response.json().then(function(j){handleSuccess(j)});
+        } else {
+          response.json().then(function(j){handleError(j)});
+        }
       })
     });
   JAVASCRIPT
 
   def initialize(_tag_name, cta_text, _tokens)
-    @cta_text = cta_text
+    @cta_text = cta_text.strip
   end
 
   def render(_context)

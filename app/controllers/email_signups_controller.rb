@@ -1,6 +1,15 @@
 class EmailSignupsController < ApplicationController
   before_action :authenticate_user!
 
+  def index
+    subscriber_ids = UserSubscription.where(
+      user_subscription_sourceable_type: params[:type],
+      user_subscription_sourceable_id: params[:id],
+    ).pluck(:subscriber_id)
+
+    @subscribers = User.where(id: subscriber_ids)
+  end
+
   def create
     source_type = email_signup_params[:source_type]
     return invalid_type_error unless UserSubscription::ALLOWED_TYPES.include?(source_type)

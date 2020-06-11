@@ -61,6 +61,9 @@
     <% elsif @user == article.user %>
       <a href="<%= article.path %>/delete_confirm" data-no-instant class="cta pill black">DELETE</a>
     <% end %>
+    <% if article.user_subscriptions.present? %>
+      <a href="<%= email_signups_path(type: "Article", id: article.id) %>" data-no-instant class="cta pill black">VIEW SUBSCRIPTIONS</a>
+    <% end %>
     <% if @current_user_pro %>
       <a href="<%= article.path %>/stats" data-no-instant class="cta pill blue">STATS</a>
     <% end %>
