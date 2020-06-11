@@ -1,6 +1,5 @@
 class EmailSignupsController < ApplicationController
-  # before_action :authenticate_user!
-  skip_before_action :verify_authenticity_token
+  before_action :authenticate_user!
 
   def create
     source_type = email_signup_params[:source_type]
@@ -10,7 +9,7 @@ class EmailSignupsController < ApplicationController
     @user_subscription_sourceable = source_type.safe_constantize.find_by(id: source_id)
     return user_subscription_sourceable_not_found unless @user_subscription_sourceable
 
-    tag_enabled = @user_subscription_sourceable.liquid_tags_used.include?(EmailSignup)
+    tag_enabled = @user_subscription_sourceable.liquid_tags_used.include?(EmailSignupTag)
     return user_subscription_sourceable_not_enabled unless tag_enabled
 
     @user_subscription = UserSubscription.new(
@@ -20,12 +19,12 @@ class EmailSignupsController < ApplicationController
     )
 
     if @user_subscription.save
-      render json: { message: "success", status: :ok }
+      render json: { message: "success", status: 200 }, status: :ok
     else
       render json: {
         error: @user_subscription.errors.full_messages.to_sentence,
-        status: :unprocessable_entity
-      }
+        status: 422
+      }, status: :unprocessable_entity
     end
   end
 
