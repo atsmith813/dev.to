@@ -8,11 +8,10 @@ class EmailSignupsController < ApplicationController
 
     source_id = email_signup_params[:source_id]
     @user_subscription_sourceable = source_type.safe_constantize.find_by(id: source_id)
-
     return user_subscription_sourceable_not_found unless @user_subscription_sourceable
 
     tag_enabled = @user_subscription_sourceable.liquid_tags_used.include?(EmailSignup)
-    return user_subscription_sourceable unless tag_enabled
+    return user_subscription_sourceable_not_enabled unless tag_enabled
 
     @user_subscription = UserSubscription.new(
       user_subscription_sourceable: user_subscription_sourceable,
