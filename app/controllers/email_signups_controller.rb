@@ -6,10 +6,10 @@ class EmailSignupsController < ApplicationController
     return invalid_type_error unless UserSubscription::ALLOWED_TYPES.include?(source_type)
 
     source_id = email_signup_params[:source_id]
-    @user_subscription_sourceable = source_type.safe_constantize.find_by(id: source_id)
-    return user_subscription_sourceable_not_found unless @user_subscription_sourceable
+    user_subscription_sourceable = source_type.safe_constantize.find_by(id: source_id)
+    return user_subscription_sourceable_not_found unless user_subscription_sourceable
 
-    tag_enabled = @user_subscription_sourceable.liquid_tags_used.include?(EmailSignupTag)
+    tag_enabled = user_subscription_sourceable.liquid_tags_used.include?(EmailSignupTag)
     return user_subscription_sourceable_not_enabled unless tag_enabled
 
     @user_subscription = UserSubscription.new(
