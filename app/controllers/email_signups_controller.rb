@@ -2,12 +2,10 @@ class EmailSignupsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    subscriber_ids = UserSubscription.where(
+    @subscriber_data = UserSubscription.where(
       user_subscription_sourceable_type: params[:type],
       user_subscription_sourceable_id: params[:id],
-    ).pluck(:subscriber_id)
-
-    @subscribers = User.where(id: subscriber_ids)
+    ).includes([:subscriber]).pluck(:email, :created_at)
   end
 
   def create

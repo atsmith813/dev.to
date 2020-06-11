@@ -1,5 +1,12 @@
-<ul>
-  <% @subscribers.each do |subscriber| %>
-    <li><%= subscriber.email %></li>
+<table>
+  <tr>
+    <th>Email</th>
+    <th>Subscribed date</th>
+  </tr>
+  <% @subscriber_data.each do |email, created_at| %>
+    <tr>
+      <td><%= email %></td>
+      <td><%= created_at.strftime('%B %l, %Y') %></td>
+    </tr>
   <% end %>
-</ul>
+</table>
