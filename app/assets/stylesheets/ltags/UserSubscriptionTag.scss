@@ -16,14 +16,19 @@
 
   .user-subscription-logged-out {
     text-align: center;
+  }
 
-    #sign-in-button {
-      width: 100%;
-    }
+  .user-subscription-response {
+    display: none;
+  }
+
+  #sign-in-button {
+    width: max-content;
   }
 
   .user-subscription-logged-in {
     text-align: center;
+    display: none;
   }
 
   #logged-in-text {
@@ -32,5 +37,26 @@
 
   #user-subscription-email {
     font-weight: bold;
+  }
+
+  .user-subscription-confirmation-modal {
+    display: none;
+  }
+
+  .crayons-modal__overlay {
+    position: fixed;
+    z-index: 400;
+  }
+
+  .confirmation-buttons {
+    text-align: center;
+  }
+
+  #confirmation-button,
+  #cancel-button {
+    width: max-content;
+    display: inline-block;
+    margin-right: 8px;
+    margin-bottom: 1rem;
   }
 }
