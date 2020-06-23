@@ -1,0 +1,26 @@
+<div class="ltag__user-subscription">
+  <div class="user-subscription-container">
+    <div class="user-subscription-content" id="content">
+      <div class="user-subscription-profile-images" id="profile-images"> </div>
+      <div class="user-subscription-cta-text fs-3xl" id="user-subscription-cta-text"><%= cta_text %></div>
+      <div class="subscription-area" id="subscription-area">
+        <%#<div class="user-subscription-logged-out" id="subscription-logged-out">%>
+          <%#<div class="fs-base" id="logged-out-text">You must first sign in to DEV.</div>%>
+          <%#<a class="crayons-btn" id="sign-in-button">Sign In</div>%>
+        <%#</div>%>
+        <div class="user-subscription-logged-in" id="subscription-logged-in">
+          <a class="crayons-btn" id="subscribe-button">Subscribe</a>
+          <div class="fs-s" id="logged-in-text">
+            You'll subscribe with
+            <span id="user-subscription-email"></span>
+            the email address associated with your DEV account. To use a
+            different email address, you can
+            <a href="/settings">update your email address in Settings</a>.
+          </div>
+        </div>
+        <div class="user-subscription-response" id="subscription-response"> </div>
+      </div>
+    </div>
+    <div class="user-subscription-confirmation"> </div>
+  </div>
+</div>

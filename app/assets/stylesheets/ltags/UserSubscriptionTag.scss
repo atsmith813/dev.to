@@ -1,0 +1,36 @@
+.ltag__user-subscription {
+  .user-subscription-container {
+    display: flex;
+    justify-content: center;
+    border: 2px solid black;
+    box-shadow: 4px 4px 0 black;
+  }
+
+  .user-subscription-content {
+    margin: 1rem auto;
+  }
+
+  .user-subscription-cta-text {
+    text-align: center;
+  }
+
+  .user-subscription-logged-out {
+    text-align: center;
+
+    #sign-in-button {
+      width: 100%;
+    }
+  }
+
+  .user-subscription-logged-in {
+    text-align: center;
+  }
+
+  #logged-in-text {
+    text-align: center;
+  }
+
+  #user-subscription-email {
+    font-weight: bold;
+  }
+}
