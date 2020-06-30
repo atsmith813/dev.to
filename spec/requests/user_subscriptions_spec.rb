@@ -63,7 +63,7 @@ RSpec.describe "UserSubscriptions", type: :request do
       end.to change(UserSubscription, :count).by(0)
 
       expect(response).to have_http_status(:unprocessable_entity)
-      expect(response.parsed_body["error"]).to eq("invalid source_type")
+      expect(response.parsed_body["error"]).to eq("Invalid source_type.")
     end
 
     it "returns an error for a source that can't be found" do
@@ -75,7 +75,7 @@ RSpec.describe "UserSubscriptions", type: :request do
       end.to change(UserSubscription, :count).by(0)
 
       expect(response).to have_http_status(:unprocessable_entity)
-      expect(response.parsed_body["error"]).to eq("source not found")
+      expect(response.parsed_body["error"]).to eq("Source not found.")
     end
 
     it "returns an error for an inactive source" do
@@ -88,7 +88,7 @@ RSpec.describe "UserSubscriptions", type: :request do
       end.to change(UserSubscription, :count).by(0)
 
       expect(response).to have_http_status(:unprocessable_entity)
-      expect(response.parsed_body["error"]).to eq("source not found")
+      expect(response.parsed_body["error"]).to eq("Source not found.")
     end
 
     it "returns an error for a source that doesn't have the UserSubscription liquid tag enabled" do
@@ -101,7 +101,7 @@ RSpec.describe "UserSubscriptions", type: :request do
       end.to change(UserSubscription, :count).by(0)
 
       expect(response).to have_http_status(:unprocessable_entity)
-      expect(response.parsed_body["error"]).to eq("user subscriptions are not enabled for the requested source")
+      expect(response.parsed_body["error"]).to eq("User subscriptions aren't enabled for the requested source.")
     end
 
     it "returns an error for an invalid UserSubscription" do
@@ -128,7 +128,8 @@ RSpec.describe "UserSubscriptions", type: :request do
       expect(response.parsed_body["error"]).to eq("Subscriber has already been taken")
     end
 
-    it "returns an error for an email mismatch" do
+    # TODO: [@thepracticaldev/delightful]: renable this once email confirmation is re-enabled
+    xit "returns an error for an email mismatch" do
       article = create(:article, user: super_admin_user, body_markdown: "---\ntitle: User Subscription#{rand(1000)}\npublished: true\n---\n\n{% user_subscription 'CTA text' %}")
 
       invalid_source_attributes = { source_type: article.class_name, source_id: article.id, subscriber_email: "old_email@test.com" }
@@ -140,7 +141,7 @@ RSpec.describe "UserSubscriptions", type: :request do
       end.to change(UserSubscription, :count).by(0)
 
       expect(response).to have_http_status(:unprocessable_entity)
-      expect(response.parsed_body["error"]).to eq("subscriber email mismatch")
+      expect(response.parsed_body["error"]).to eq("Subscriber email mismatch.")
     end
 
     it "returns an error for a subscriber that signed up with Apple" do
@@ -156,7 +157,7 @@ RSpec.describe "UserSubscriptions", type: :request do
       end.to change(UserSubscription, :count).by(0)
 
       expect(response).to have_http_status(:unprocessable_entity)
-      expect(response.parsed_body["error"]).to eq("cannot subscribe with Apple private relay email")
+      expect(response.parsed_body["error"]).to eq("You can't subscribe with an Apple private relay email. Please update your email address and try again.")
     end
   end
 
