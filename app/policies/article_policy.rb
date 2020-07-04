@@ -27,6 +27,10 @@ class ArticlePolicy < ApplicationPolicy
     user_is_author? || user_admin?
   end
 
+  def subscriptions?
+    user_is_author? || user_admin?
+  end
+
   def permitted_attributes
     %i[title body_html body_markdown main_image published canonical_url
        description tag_list publish_under_org
