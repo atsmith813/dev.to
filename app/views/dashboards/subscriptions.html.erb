@@ -28,7 +28,9 @@
         </tbody>
       </table>
     <% else %>
-      <div class="p-9 crayons-card crayons-card--secondary align-center fs-l h-100 flex items-center justify-center">You don't have any subscribers for this <%= @source.class.name.downcase %> yet...</div>
+      <div class="p-9 crayons-card crayons-card--secondary align-center fs-l h-100 flex items-center justify-center">
+        You don't have any subscribers for this <%= @source.class.name.downcase %> yet...
+      </div>
     <% end %>
   </main>
 
