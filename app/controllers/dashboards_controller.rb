@@ -74,8 +74,6 @@ class DashboardsController < ApplicationController
   end
 
   def subscriptions
-    @source = params[:source_type].constantize.find_by(id: params[:source_id])
-
     @subscriptions = current_user.source_authored_user_subscriptions.where(
       user_subscription_sourceable_type: @source.class.name,
       user_subscription_sourceable_id: @source.id,
@@ -85,8 +83,12 @@ class DashboardsController < ApplicationController
   private
 
   def set_source
+    not_found unless UserSubscription::ALLOWED_TYPES.include? params[:source_type]
+
     source = params[:source_type].safe_constantize&.find_by(id: params[:source_id])
-    @sourece = source || not_found
+    not_found if source&.user != current_user
+
+    @source = source
   end
 
   def fetch_and_authorize_user
