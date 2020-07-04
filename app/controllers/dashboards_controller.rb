@@ -75,11 +75,7 @@ class DashboardsController < ApplicationController
 
   def subscriptions
     authorize @source
-
-    @subscriptions = current_user.source_authored_user_subscriptions.where(
-      user_subscription_sourceable_type: @source.class.name,
-      user_subscription_sourceable_id: @source.id,
-    ).includes(:subscriber)
+    @subscriptions = @source.user_subscriptions.includes(:subscriber)
   end
 
   private
