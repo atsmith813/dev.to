@@ -2,6 +2,7 @@ class DashboardsController < ApplicationController
   before_action :set_no_cache_header
   before_action :authenticate_user!
   before_action :fetch_and_authorize_user, except: :pro
+  before_action :set_source, only: %i[subscriptions]
   before_action -> { limit_per_page(default: 80, max: 1000) }, except: %i[show pro]
   after_action :verify_authorized
 
@@ -72,14 +73,21 @@ class DashboardsController < ApplicationController
     @organizations = current_user.member_organizations
   end
 
-  def subscribed_users
+  def subscriptions
+    @source = params[:source_type].constantize.find_by(id: params[:source_id])
+
     @subscriptions = current_user.source_authored_user_subscriptions.where(
-      user_subscription_sourceable_type: params[:source_type],
-      user_subscription_sourceable_id: params[:source_id],
+      user_subscription_sourceable_type: @source.class.name,
+      user_subscription_sourceable_id: @source.id,
     ).includes(:subscriber)
   end
 
   private
+
+  def set_source
+    source = params[:source_type].safe_constantize&.find_by(id: params[:source_id])
+    @sourece = source || not_found
+  end
 
   def fetch_and_authorize_user
     @user = if params[:username] && current_user.any_admin?
