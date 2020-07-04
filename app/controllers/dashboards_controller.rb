@@ -22,6 +22,8 @@ class DashboardsController < ApplicationController
       @articles = target.articles.includes(:organization)
     end
 
+    @articles = @articles.includes(:user_subscriptions)
+
     @reactions_count = @articles.sum(&:public_reactions_count)
     @page_views_count = @articles.sum(&:page_views_count)
 
@@ -68,6 +70,13 @@ class DashboardsController < ApplicationController
                      current_user
                    end
     @organizations = current_user.member_organizations
+  end
+
+  def subscribed_users
+    @subscriptions = current_user.source_authored_user_subscriptions.where(
+      user_subscription_sourceable_type: params[:source_type],
+      user_subscription_sourceable_id: params[:source_id],
+    ).includes(:subscriber)
   end
 
   private
