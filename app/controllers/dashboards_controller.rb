@@ -75,7 +75,8 @@ class DashboardsController < ApplicationController
 
   def subscriptions
     authorize @source
-    @subscriptions = @source.user_subscriptions.includes(:subscriber)
+    @subscriptions = @source.user_subscriptions.
+      includes(:subscriber).order(created_at: :desc).page(params[:page]).per(100)
   end
 
   private

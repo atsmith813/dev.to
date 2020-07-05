@@ -27,6 +27,9 @@
           <% end %>
         </tbody>
       </table>
+      <div class="my-4 pl-3">
+        <%= paginate @subscriptions, params: { i: nil } %>
+      </div>
     <% else %>
       <div class="p-9 crayons-card crayons-card--secondary align-center fs-l h-100 flex items-center justify-center">
         You don't have any subscribers for this <%= @source.class.name.downcase %> yet...
