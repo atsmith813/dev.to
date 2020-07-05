@@ -39,7 +39,7 @@ RSpec.describe "Dashboards", type: :request do
       end
 
       it "renders subscriptions for articles with subscriptions" do
-        user.add_role(:super_admin)
+        user.add_role(:admin) # TODO: (Alex Smith) - update roles before release
         article_with_user_subscription_tag = create(:article, user: user, with_user_subscription_tag: true)
         create(:user_subscription,
                subscriber_id: second_user.id,
